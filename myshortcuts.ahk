@@ -93,9 +93,6 @@ Return
 ; Ctrl-`: toggle between _scratch_ and previous active window
 ; 
 #Numpad1::
-; Activate("gvim c:\tmp\task.otl", "task.otl")
-; Activate("gvim 'C:\Documents and Settings\hchau\Desktop\temp\todo.otl'", "todo.otl")
-; Activate("gvim C:\Docume~1\hchau\Desktop\temp\todo.otl", "todo.otl")
 Activate("gvim C:\MyData\work\todo.otl", "todo.otl")
 return
 
@@ -108,25 +105,14 @@ Activate("c:\public\bin\tasklist.lnk", "task.otl")
 return
 
 ^`::
-; IfWinActive, _scratch_
-; {
-;   WinActivate %prevWinTitle%
-;   WinWaitActive, %prevWinTitle%
-; }
-; Else
-; {
-;   WinGetActiveTitle, prevWinTitle
-;   Activate("gvim C:\tmp\_scratch_", "_scratch_")
-;   WinWaitActive, _scratch_
-; }
-
 IfWinActive, _scratch_
 {
   WinMinimize, _scratch_
 }
 Else
 {
-  Activate("gvim C:\tmp\_scratch_", "_scratch_")
+  cmd = gvim "+autocmd FocusGained * winpos -10 -26" C:\tmp\_scratch_
+  Activate(cmd, "_scratch_")
 }
 
 ~Numpad1::
@@ -138,7 +124,6 @@ Activate("gvim C:\MyData\work\todo.otl", "todo.otl")
 return
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 ~Numpad2::
 RapidHotkey("key_npad2",2,0.2,1)
 return
@@ -146,7 +131,6 @@ return
 key_npad2:
 Activate("C:\public\bin\online-countdown.exe", "Adobe Flash Player 9")
 return
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Keep track of how many times the same key is pressed. Invoke label when
@@ -261,5 +245,4 @@ Morse(timeout = 400)
          Return
    }
 }
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
