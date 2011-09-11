@@ -8,10 +8,17 @@
 
 tasklist_win = _scratch_
 ; time_len is in ms. need to be negative.
-pomo_time_len := 3 * 1000 * -1
-shortbreak_time_len := 3 * 1000 * -1
-longbreak_time_len := 3 * 1000 * -1
+; Testing parameters
+; pomo_time_len := 3 * 1000 * -1
+; shortbreak_time_len := 3 * 1000 * -1
+; longbreak_time_len := 3 * 1000 * -1
 
+; Production paremeters
+pomo_time_len := 25 * 60 * 1000 * -1
+shortbreak_time_len := 5 * 60 * 1000 * -1
+longbreak_time_len := 15 * 60 * 1000 * -1
+
+; Internal varables
 npomodone = 0
 
 ;; Ctrl-1: Start a pomodoro
@@ -44,7 +51,7 @@ PomoEnd:
   SoundPlay, *48
   Msgbox, Completed %npomodone% pomodoro.
 
-  If (mod(npomodone, 2) != 0) {
+  If (mod(npomodone, 4) != 0) {
     MsgBox Start short break.
     SetTimer ShortBreakEnd, %shortbreak_time_len%
   }
