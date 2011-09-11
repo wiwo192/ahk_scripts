@@ -1,3 +1,11 @@
+  ; TODO: improve *_time_len user interface by using middle vars
+  ; TODO: Convert break timer into sleep
+  ; TODO: convert PomoInProgress into states: idle, pomo, break.
+  ; TODO: Display remaining time.
+  ; TODO: Warning for remaining time
+  ; TODO: Replace Msgbox w/ flash text if possible
+  ; TODO: Add sound: SoundPlay to events
+
 tasklist_win = _scratch_
 ; time_len is in ms. need to be negative.
 pomo_time_len := 3 * 1000 * -1
@@ -6,24 +14,20 @@ longbreak_time_len := 3 * 1000 * -1
 
 npomodone = 0
 
+;; Ctrl-1: Start a pomodoro
 ^1::
   If (PomoInProgress = 1) {
     Msgbox, Err: Another pomodoro in progress.
     Return
   }
 
-  ; TODO: improve *_time_len user interface by using middle vars
-  ; TODO: Convert break timer into sleep
-  ; TODO: convert PomoInProgress into states: idle, pomo, break.
-  ; TODO: Display remaining time.
-  ; TODO: Warning for remaining time
-  ; TODO: Replace Msgbox w/ flash text if possible
   PomoInProgress = 1
   Msgbox, Start a new pomodoro.
   ;SetTimer PomoComplete, -1500000
   SetTimer PomoEnd, %pomo_time_len%
   Return
 
+;; Ctrl-2: Interrupt the current pomodoro
 ^2::
   If (PomoInProgress = 1) {
     Msgbox, Cancel current Pomodoro.
@@ -37,6 +41,7 @@ PomoEnd:
   WinActivate %tasklist_win%
 
   npomodone := npomodone + 1
+  SoundPlay, *48
   Msgbox, Completed %npomodone% pomodoro.
 
   If (mod(npomodone, 2) != 0) {
@@ -52,9 +57,13 @@ PomoEnd:
   Return
 
 ShortBreakEnd:
+  SoundPlay, *48
   Msgbox, Completed short break.
   Return 
 
 LongBreakEnd:
+  SoundPlay, *48
   Msgbox, Completed long break.
   Return 
+
+; vim: expandtab tabstop=2 shiftwidth=2
