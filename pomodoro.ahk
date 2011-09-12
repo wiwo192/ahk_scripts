@@ -9,7 +9,7 @@
 tasklist_win = _scratch_
 ; time_len is in ms. need to be negative.
 ; Testing parameters
-; pomo_time_len := 3 * 1000 * -1
+; pomo_time_len := 10 * 1000 * -1
 ; shortbreak_time_len := 3 * 1000 * -1
 ; longbreak_time_len := 3 * 1000 * -1
 
@@ -28,9 +28,9 @@ npomodone = 0
     Return
   }
 
-  PomoInProgress = 1
   Msgbox, Start a new pomodoro.
-  ;SetTimer PomoComplete, -1500000
+  PomoInProgress = 1
+  startTime := A_Now
   SetTimer PomoEnd, %pomo_time_len%
   Return
 
@@ -42,6 +42,11 @@ npomodone = 0
     WinActivate %tasklist_win%
     PomoInProgress = 0
   }
+  Return
+
+^3::
+  timelen := pomo_time_len * -1
+  DisplayProgress(startTime, timelen)
   Return
 
 PomoEnd:
@@ -59,18 +64,38 @@ PomoEnd:
     MsgBox Completed 4 pomodoroes.  Start long break.
     SetTimer LongBreakEnd, %longbreak_time_len%
   }
-  
+
   PomoInProgress = 0
   Return
 
 ShortBreakEnd:
   SoundPlay, *48
   Msgbox, Completed short break.
-  Return 
+  Return
 
 LongBreakEnd:
   SoundPlay, *48
   Msgbox, Completed long break.
-  Return 
+  Return
+
+DisplayProgress(startTime, timelen) {
+  currTime := A_Now
+
+  elapseInSec := currTime
+  elapseInSec -= %startTime%, seconds
+  elapseInMSec := elapseInSec * 1000
+
+  percent := elapseInMSec * 100 // timelen
+
+  secs_left := (timelen - elapseInMSec) // 1000
+
+  Progress, b w200, Seconds remaining: %secs_left%
+  Progress, %percent%
+  sleep 1500
+  Progress, Off
+
+  Return
+}
+
 
 ; vim: expandtab tabstop=2 shiftwidth=2
