@@ -45,7 +45,7 @@ npomodone = 0
   Return
 
 ^3::
-  timelen := pomo_time_len * -1
+  timelen := pomo_time_len // 1000 * -1
   DisplayProgress(startTime, timelen)
   Return
 
@@ -78,24 +78,24 @@ LongBreakEnd:
   Msgbox, Completed long break.
   Return
 
-DisplayProgress(startTime, timelen) {
+;; startTime: date_value in sec.
+;; timelen: in sec
+DisplayProgress(startTime, timeLen) {
   currTime := A_Now
 
   elapseInSec := currTime
   elapseInSec -= %startTime%, seconds
-  elapseInMSec := elapseInSec * 1000
 
-  percent := elapseInMSec * 100 // timelen
+  timeLeftInSec := timeLen - elapseInSec
+  mm := timeLeftInSec // 60
+  ss := mod(timeLeftInSec, 60)
 
-  secs_left := (timelen - elapseInMSec) // 1000
-
-  Progress, b w200, Seconds remaining: %secs_left%
-  Progress, %percent%
+  Progress, B1 W200 R0-%timeLen%, Time remaining: %mm%:%ss%
+  Progress, %elapseInSec%
   sleep 1500
   Progress, Off
 
   Return
 }
-
 
 ; vim: expandtab tabstop=2 shiftwidth=2
