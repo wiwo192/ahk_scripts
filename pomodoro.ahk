@@ -24,7 +24,7 @@ npomodone = 0
 ;; Ctrl-1: Start a pomodoro
 ^1::
   If (PomoInProgress = 1) {
-    Msgbox, Err: Another pomodoro in progress.
+    Msgbox, Error: Another pomodoro in progress.
     Return
   }
 
@@ -37,12 +37,16 @@ npomodone = 0
 
 ;; Ctrl-2: Interrupt the current pomodoro
 ^2::
-  If (PomoInProgress = 1) {
-    Msgbox, Cancel current Pomodoro.
-    SetTimer PomoEnd, Off
-    WinActivate %tasklist_win%
-    PomoInProgress = 0
+  If (PomoInProgress != 1) {
+    Return
   }
+
+  Msgbox, Cancel current Pomodoro and Breaks.
+  SetTimer PomoEnd, Off
+  SetTimer ShortBreakEnd, Off
+  SetTimer LongBreakEnd, Off
+  WinActivate %tasklist_win%
+  PomoInProgress = 0
   Return
 
 ^3::
