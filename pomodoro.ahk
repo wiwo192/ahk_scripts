@@ -64,11 +64,13 @@ PomoEnd:
 
   If (mod(npomodone, 4) != 0) {
     MsgBox Start short break.
+    startTime := A_Now
     timeLen := shortbreak_time_len // 1000 * -1
     SetTimer ShortBreakEnd, %shortbreak_time_len%
   }
   Else {
     MsgBox Completed 4 pomodoroes.  Start long break.
+    startTime := A_Now
     timeLen := longbreak_time_len // 1000 * -1
     SetTimer LongBreakEnd, %longbreak_time_len%
   }
