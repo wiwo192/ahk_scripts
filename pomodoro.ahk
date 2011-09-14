@@ -58,8 +58,6 @@ npomodone = 0
   Return
 
 PomoEnd:
-  WinActivate %tasklist_win%
-
   npomodone := npomodone + 1
   SoundPlay, *48
   Msgbox, Completed %npomodone% pomodoro.
@@ -74,6 +72,8 @@ PomoEnd:
     timeLen := longbreak_time_len // 1000 * -1
     SetTimer LongBreakEnd, %longbreak_time_len%
   }
+
+  WinActivate %tasklist_win%
 
   Return
 
