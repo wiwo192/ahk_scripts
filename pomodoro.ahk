@@ -24,11 +24,11 @@ npomodone = 0
 ;; Ctrl-1: Start a pomodoro
 ^1::
   If (PomoInProgress = 1) {
-    Msgbox, Error: Another pomodoro in progress.
+    Msgbox,,, Error: Another pomodoro in progress., 2
     Return
   }
 
-  Msgbox, Start a new pomodoro.
+  Msgbox,,, Start a new pomodoro., 2
   PomoInProgress = 1
   startTime := A_Now
   timeLen := pomo_time_len // 1000 * -1
@@ -41,7 +41,7 @@ npomodone = 0
     Return
   }
 
-  Msgbox, Cancel current Pomodoro and Breaks.
+  Msgbox,,, Cancel current Pomodoro and Breaks., 2
   SetTimer PomoEnd, Off
   SetTimer ShortBreakEnd, Off
   SetTimer LongBreakEnd, Off
@@ -60,16 +60,16 @@ npomodone = 0
 PomoEnd:
   npomodone := npomodone + 1
   SoundPlay, *48
-  Msgbox, Completed %npomodone% pomodoro.
+  Msgbox,,, Completed %npomodone% pomodoro., 2
 
   If (mod(npomodone, 4) != 0) {
-    MsgBox Start short break.
+    MsgBox,,, Start short break., 2
     startTime := A_Now
     timeLen := shortbreak_time_len // 1000 * -1
     SetTimer ShortBreakEnd, %shortbreak_time_len%
   }
   Else {
-    MsgBox Completed 4 pomodoroes.  Start long break.
+    MsgBox,,, Completed 4 pomodoroes.  Start long break., 2
     startTime := A_Now
     timeLen := longbreak_time_len // 1000 * -1
     SetTimer LongBreakEnd, %longbreak_time_len%
@@ -82,13 +82,13 @@ PomoEnd:
 ShortBreakEnd:
   PomoInProgress = 0
   SoundPlay, *48
-  Msgbox, Completed short break.
+  Msgbox,,, Completed short break., 2
   Return
 
 LongBreakEnd:
   PomoInProgress = 0
   SoundPlay, *48
-  Msgbox, Completed long break.
+  Msgbox,,, Completed long break., 2
   Return
 
 ;; startTime: date_value in sec.
