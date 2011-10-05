@@ -31,7 +31,7 @@ IfWinNotActive, adc2100791
   Send ^c
   ClipWait, 2
 }
-Activate("gvim C:\tmp\_scratch_", "_scratch_")
+Activate("gvim C:\MyData\_scratch_", "_scratch_")
 sleep 300
 Send Go{Escape}p
 ClipSaved =
@@ -49,19 +49,20 @@ Capslock::Esc
 ; Set transparent if not focus and always on top
 ; Ctrl-R_click: make win (under mouse) transparent & always on top.
 ; Ctrl-L_click: reverse Ctrl-R_click.
-^RButton::
-MouseGetPos,,,MouseWin
-WinSet,Transparent,60,ahk_id %MouseWin%
-WinSet,AlwaysOnTop,On,ahk_id %MouseWin%
-Return
-
-^LButton::
-MouseGetPos,,,MouseWin
-WinSet,Transparent,Off,ahk_id %MouseWin%
-; WinSet,Transparent,255,ahk_id %MouseWin%
-WinSet,AlwaysOnTop,Off,ahk_id %MouseWin%
-WinActivate, ahk_id %MouseWin% 
-Return
+;;; Disabled: rarely used & conflict with win selection.
+; ^RButton::
+; MouseGetPos,,,MouseWin
+; WinSet,Transparent,60,ahk_id %MouseWin%
+; WinSet,AlwaysOnTop,On,ahk_id %MouseWin%
+; Return
+; 
+; ^LButton::
+; MouseGetPos,,,MouseWin
+; WinSet,Transparent,Off,ahk_id %MouseWin%
+; ; WinSet,Transparent,255,ahk_id %MouseWin%
+; WinSet,AlwaysOnTop,Off,ahk_id %MouseWin%
+; WinActivate, ahk_id %MouseWin% 
+; Return
 
 ;; TODO: Transparent CAP not working.
 ;; Disable for now.  Since this is dangerous, windows can disappear and never
@@ -111,7 +112,7 @@ IfWinActive, _scratch_
 }
 Else
 {
-  cmd = gvim "+autocmd FocusGained * winpos -10 -26" C:\tmp\_scratch_
+  cmd = gvim "+autocmd FocusGained * winpos -10 -26" C:\MyData\_scratch_
   Activate(cmd, "_scratch_")
 }
 
