@@ -40,10 +40,12 @@ Return
 ; Remap keys:
 ;  - numpad_/ -> insert
 ;  - shift-backspace/ -> shift-insert
-;  - capslock -> esc (in vim)
+;  - capslock -> esc (for vim)
+;  - ctrl-alt-shift-capslock -> capslock
 NumpadDiv::Insert
 +Backspace::+Insert
 Capslock::Esc
+^+!Capslock::Capslock
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Set transparent if not focus and always on top
